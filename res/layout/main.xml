@@ -74,7 +74,7 @@
 
         </LinearLayout>
     </ScrollView>
-    <com.austinoneil.Easel.DrawingBoard
+    <com.austinoneil.Easel.DrawingBoardView
             android:id="@+id/drawing_board"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>

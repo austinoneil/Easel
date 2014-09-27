@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class EaselActivity extends Activity implements TextureView.SurfaceTextureListener {
-    DrawingBoard db;
+    DrawingBoardView db;
     Paint p;
 
     /**
@@ -34,22 +34,10 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         getActionBar().hide();
-        db=(DrawingBoard)this.findViewById(R.id.drawing_board);
+        db=(DrawingBoardView)this.findViewById(R.id.drawing_board);
     }
 
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        db.pause();
-    }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        db.resume();
-    }
 
     public void saveImage(View view)
     {
@@ -84,8 +72,8 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
 
     public void setColor(View view)
     {
-        db.clearShapes(); // This is necessary to prevent the previous polyline of shapes from having its color changed.
-        db.diameter=10;
+//        db.clearShapes(); // This is necessary to prevent the previous polyline of shapes from having its color changed.
+        db.p.setStrokeWidth(10);
         switch(view.getId())
         {
             case R.id.set_red:
@@ -111,7 +99,7 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
                 break;
             case R.id.erase:
                 db.setColor(Color.BLACK);
-                db.diameter=30;
+                //db.diameter=30;
                 db.p.setStrokeWidth(30);
                 break;
         }
