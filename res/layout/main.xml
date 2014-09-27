@@ -11,54 +11,13 @@
                 android:orientation="vertical">
 
             <ImageButton
-                    android:id="@+id/set_red"
+                    android:id="@+id/set_color"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
-                    android:src="#ffff0000"
+                    android:src="@drawable/pallet"
                     android:scaleType="fitCenter"
-                    android:onClick="setColor"/>
-            <ImageButton
-                    android:id="@+id/set_orange"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:src="#ffffaf00"
-                    android:scaleType="fitCenter"
-                    android:onClick="setColor"/>
-            <ImageButton
-                    android:id="@+id/set_yellow"
-                    android:onClick="setColor"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:src="#ffffff00"
-                    android:scaleType="fitCenter"/>
-            <ImageButton
-                    android:id="@+id/set_green"
-                    android:onClick="setColor"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:src="#ff00ff00"
-                    android:scaleType="fitCenter"/>
-            <ImageButton
-                    android:id="@+id/set_blue"
-                    android:onClick="setColor"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:src="#ff0000ff"
-                    android:scaleType="fitCenter"/>
-            <ImageButton
-                    android:id="@+id/set_purple"
-                    android:onClick="setColor"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:src="#ffff00ff"
-                    android:scaleType="fitCenter"/>
-            <ImageButton
-                    android:id="@+id/set_brown"
-                    android:onClick="setColor"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:src="#ffc25429"
-                    android:scaleType="fitCenter"/>
+                    android:onClick="setColorDialog"/>
+
             <ImageButton
                     android:id="@+id/erase"
                     android:onClick="setColor"

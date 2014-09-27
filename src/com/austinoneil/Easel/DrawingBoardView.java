@@ -56,9 +56,6 @@ public class DrawingBoardView extends ImageView {
     {
         super(context, attrs);
         super.setOnTouchListener(listener);
-       /* Bitmap bmp=Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
-        this.setImageBitmap(bmp);
-        c=new Canvas(bmp);*/
 
         p=new Paint();
         p.setColor(Color.RED);
@@ -77,27 +74,20 @@ public class DrawingBoardView extends ImageView {
         if(background==null)
             background=Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas imageCanvas=new Canvas(background);
-        //singleUseCanvas.setBitmap(background);
-        //canvas.drawBitmap(background, this.getLeft(), this.getTop(), null);
 
-            canvas.drawBitmap(background, 0, this.getTop(), null);
-        if(!justGotDoneWithActionDown) {
-            canvas.drawCircle(xPrev, yPrev, 5, p);
-            canvas.drawLine(xPrev, yPrev, x, y, p);
-            canvas.drawCircle(x, y, 5, p);
-        }
+        canvas.drawBitmap(background, 0, this.getTop(), null);
+        canvas.drawCircle(xPrev, yPrev, 5, p);
+        canvas.drawLine(xPrev, yPrev, x, y, p);
+        canvas.drawCircle(x, y, 5, p);
 
-            imageCanvas.drawBitmap(background, 0, this.getTop(), null);
-        if(!justGotDoneWithActionDown)
-        {
-            imageCanvas.drawCircle(xPrev, yPrev, 5, p);
-            imageCanvas.drawLine(xPrev, yPrev, x, y, p);
-            imageCanvas.drawCircle(x, y, 5, p);
-        }
+        imageCanvas.drawBitmap(background, 0, this.getTop(), null);
+        imageCanvas.drawCircle(xPrev, yPrev, 5, p);
+        imageCanvas.drawLine(xPrev, yPrev, x, y, p);
+        imageCanvas.drawCircle(x, y, 5, p);
     }
 
     public Bitmap loadBitmapFromView()
     {
-        return background;
+        return Bitmap.createBitmap(background);
     }
 }

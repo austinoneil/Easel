@@ -1,6 +1,9 @@
 package com.austinoneil.Easel;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,13 +12,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,6 +26,7 @@ import java.io.OutputStream;
 public class EaselActivity extends Activity implements TextureView.SurfaceTextureListener {
     DrawingBoardView db;
     Paint p;
+    ColorPickerDialog dialog;
 
     /**
      * Called when the activity is first created.
@@ -97,12 +99,23 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
             case R.id.set_brown:
                 db.setColor(Color.rgb(0xc2, 0x54, 0x29));
                 break;
+            case R.id.set_white:
+                db.setColor(Color.WHITE);
+                break;
             case R.id.erase:
                 db.setColor(Color.BLACK);
                 //db.diameter=30;
                 db.p.setStrokeWidth(30);
                 break;
         }
+        dialog.dismiss();
+    }
+
+    public void setColorDialog(View view)
+    {
+        dialog=new ColorPickerDialog();
+        dialog.show(getFragmentManager(), "");
+
     }
 
     @Override
