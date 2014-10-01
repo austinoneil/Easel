@@ -10,6 +10,11 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical">
 
+            <ImageView
+                    android:id="@+id/current_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:src="#ffff0000"/>
             <ImageButton
                     android:id="@+id/set_color"
                     android:layout_width="fill_parent"

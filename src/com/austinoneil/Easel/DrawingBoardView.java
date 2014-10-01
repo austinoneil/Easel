@@ -70,17 +70,16 @@ public class DrawingBoardView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d("onDraw", "in onDraw");
         if(background==null)
             background=Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas imageCanvas=new Canvas(background);
 
-        canvas.drawBitmap(background, 0, this.getTop(), null);
+        canvas.drawBitmap(background, 0, 0, null);
         canvas.drawCircle(xPrev, yPrev, 5, p);
         canvas.drawLine(xPrev, yPrev, x, y, p);
         canvas.drawCircle(x, y, 5, p);
 
-        imageCanvas.drawBitmap(background, 0, this.getTop(), null);
+        imageCanvas.drawBitmap(background, 0, 0, null);
         imageCanvas.drawCircle(xPrev, yPrev, 5, p);
         imageCanvas.drawLine(xPrev, yPrev, x, y, p);
         imageCanvas.drawCircle(x, y, 5, p);
