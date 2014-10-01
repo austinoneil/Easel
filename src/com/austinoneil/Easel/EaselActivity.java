@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TextureView;
@@ -29,6 +31,8 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
     DrawingBoardView db;
     Paint p;
     ColorPickerDialog dialog;
+    String filename="";
+    Bitmap bmp;
 
     /**
      * Called when the activity is first created.
@@ -45,33 +49,41 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
 
     public void saveImage(View view)
     {
-        Bitmap bmp=db.loadBitmapFromView();
+        bmp=db.loadBitmapFromView();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Save Image");
+        final EditText input = new EditText(this);
+        builder.setView(input);
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                filename = input.getText().toString() + ".png";
+                try
+                {
 
-        Toast toast=new Toast(this);
-        ImageView bmpView = new ImageView(this);
-        bmpView.setImageBitmap(bmp);
-        toast.setView(bmpView);
-        toast.show();
-        String filename="out.png";
+                    String path = Environment.getExternalStorageDirectory().toString();
+                    OutputStream fOut = null;
+                    File file = new File(path, filename);
+                    file.createNewFile();
 
-        // File stuff
-        try
-        {
-            String path = Environment.getExternalStorageDirectory().toString();
-            OutputStream fOut = null;
-            File file = new File(path, "out.png");
-            file.createNewFile();
-
-            fOut = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, fOut);
-            fOut.flush();
-            fOut.close();
-            MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+                    fOut = new FileOutputStream(file);
+                    bmp.compress(Bitmap.CompressFormat.PNG, 90, fOut);
+                    fOut.flush();
+                    fOut.close();
+                    MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+                }
+                catch (Exception e)
+                {
+                    Log.d("saveImage", "something went wrong with saving");
+                    e.printStackTrace();
+                }
+                finally
+                {
+                    filename="";
+                }
+            }
+        });
+        builder.show();
     }
 
     public void setColor(View view)
