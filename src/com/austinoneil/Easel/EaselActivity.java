@@ -33,6 +33,8 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
     ColorPickerDialog dialog;
     String filename="";
     Bitmap bmp;
+    ArrayList<Bitmap> bitmaps=new ArrayList<Bitmap>();
+    int currentPage=0;
 
     /**
      * Called when the activity is first created.
@@ -60,7 +62,6 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
                 filename = input.getText().toString() + ".png";
                 try
                 {
-
                     String path = Environment.getExternalStorageDirectory().toString();
                     OutputStream fOut = null;
                     File file = new File(path, filename);
@@ -131,6 +132,51 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
                 break;
         }
         dialog.dismiss();
+    }
+
+    public void nextPage(View view)
+    {
+        ImageButton back=(ImageButton)findViewById(R.id.previous_page);
+        back.setEnabled(true);
+        ToggleButton tb=(ToggleButton)view;
+        currentPage++;
+        Log.d("currentPage", currentPage+"");
+        if(currentPage>=bitmaps.size())
+        {
+            bitmaps.add(db.loadBitmapFromView().copy(Bitmap.Config.ARGB_8888, true));
+            db.clearBitmap();
+            tb.setChecked(true);
+        }
+        else
+        {
+            bitmaps.set(currentPage-1, db.loadBitmapFromView());
+            db.setCurrentBitmap(bitmaps.get(currentPage));
+
+            tb.setChecked(false);
+        }
+
+    }
+
+    public void previousPage(View view)
+    {
+        if(currentPage!=bitmaps.size())
+        {
+            bitmaps.set(currentPage, db.loadBitmapFromView().copy(Bitmap.Config.ARGB_8888, true));
+        }
+        else
+        {
+            bitmaps.add(db.loadBitmapFromView().copy(Bitmap.Config.ARGB_8888, true));
+        }
+        currentPage--;
+        Log.d("currentPage", currentPage+"");
+        ToggleButton tb=(ToggleButton)findViewById(R.id.next_page);
+        tb.setChecked(false);
+        if(currentPage==0)
+        {
+            view.setEnabled(false);
+        }
+        //db.clearBitmap();
+        db.setCurrentBitmap(bitmaps.get(currentPage).copy(Bitmap.Config.ARGB_8888, true));
     }
 
     public void setColorDialog(View view)

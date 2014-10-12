@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -25,11 +26,12 @@ public class DrawingBoardView extends ImageView {
     BitmapDrawable currentBitmap;
     Bitmap background;
     boolean justGotDoneWithActionDown=false;
+    Canvas imageCanvas;
+    boolean clearFlag=false;
 
     OnTouchListener listener=new OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent event) {
-            Log.d("onTouch", event.getX()+","+event.getY());
             justGotDoneWithActionDown=false;
             switch (event.getActionMasked())
             {
@@ -72,7 +74,7 @@ public class DrawingBoardView extends ImageView {
         super.onDraw(canvas);
         if(background==null)
             background=Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas imageCanvas=new Canvas(background);
+        imageCanvas=new Canvas(background);
 
         canvas.drawBitmap(background, 0, 0, null);
         canvas.drawCircle(xPrev, yPrev, 5, p);
@@ -83,10 +85,31 @@ public class DrawingBoardView extends ImageView {
         imageCanvas.drawCircle(xPrev, yPrev, 5, p);
         imageCanvas.drawLine(xPrev, yPrev, x, y, p);
         imageCanvas.drawCircle(x, y, 5, p);
+
+        if(clearFlag)
+        {
+            imageCanvas.drawColor(Color.BLACK);
+            canvas.drawColor(Color.BLACK);
+            clearFlag=false;
+        }
     }
 
     public Bitmap loadBitmapFromView()
     {
         return Bitmap.createBitmap(background);
+    }
+
+    public void setCurrentBitmap(Bitmap bmp)
+    {
+        background=bmp;
+        setImageBitmap(bmp);
+        imageCanvas.setBitmap(bmp);
+    }
+
+    public void clearBitmap()
+    {
+        clearFlag=true;
+        imageCanvas.drawColor(Color.BLACK);
+        this.setImageDrawable(new ColorDrawable(Color.BLACK));
     }
 }

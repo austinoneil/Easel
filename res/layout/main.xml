@@ -34,8 +34,18 @@
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
                     android:src="@android:drawable/ic_menu_save"/>
-
-
+            <ImageButton
+                    android:id="@+id/previous_page"
+                    android:onClick="previousPage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:src="@android:drawable/ic_media_rew"/>
+            <ToggleButton
+                    android:id="@+id/next_page"
+                    android:onClick="nextPage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/next_button"/>
         </LinearLayout>
     </ScrollView>
     <com.austinoneil.Easel.DrawingBoardView
