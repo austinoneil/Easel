@@ -35,17 +35,17 @@
                     android:layout_height="50dp"
                     android:src="@android:drawable/ic_menu_save"/>
             <ImageButton
-                    android:id="@+id/previous_page"
-                    android:onClick="previousPage"
+                    android:id="@+id/list_pages"
+                    android:onClick="listPages"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
-                    android:src="@android:drawable/ic_media_rew"/>
-            <ToggleButton
-                    android:id="@+id/next_page"
-                    android:onClick="nextPage"
+                    android:src="@android:drawable/ic_dialog_dialer"/>
+            <ImageButton
+                    android:id="@+id/new_page"
+                    android:onClick="newPage"
                     android:layout_width="fill_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/next_button"/>
+                    android:src="@android:drawable/ic_menu_add"/>
         </LinearLayout>
     </ScrollView>
     <com.austinoneil.Easel.DrawingBoardView

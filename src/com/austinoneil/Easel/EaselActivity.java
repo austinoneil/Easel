@@ -2,8 +2,6 @@ package com.austinoneil.Easel;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,24 +11,21 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
-import android.view.Window;
 import android.widget.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class EaselActivity extends Activity implements TextureView.SurfaceTextureListener {
     DrawingBoardView db;
     Paint p;
-    ColorPickerDialog dialog;
+    ColorPickerDialog colorPickerDialog;
+    PageSelectorDialog pageSelectorDialog;
     String filename="";
     Bitmap bmp;
     ArrayList<Bitmap> bitmaps=new ArrayList<Bitmap>();
@@ -131,59 +126,40 @@ public class EaselActivity extends Activity implements TextureView.SurfaceTextur
                 currentBrushView.setImageDrawable(getResources().getDrawable(R.drawable.eraser));
                 break;
         }
-        dialog.dismiss();
+        colorPickerDialog.dismiss();
     }
 
-    public void nextPage(View view)
+    public void newPage(View view)
     {
-        ImageButton back=(ImageButton)findViewById(R.id.previous_page);
-        back.setEnabled(true);
-        ToggleButton tb=(ToggleButton)view;
-        currentPage++;
-        Log.d("currentPage", currentPage+"");
-        if(currentPage>=bitmaps.size())
-        {
-            bitmaps.add(db.loadBitmapFromView().copy(Bitmap.Config.ARGB_8888, true));
-            db.clearBitmap();
-            tb.setChecked(true);
-        }
-        else
-        {
-            bitmaps.set(currentPage-1, db.loadBitmapFromView());
-            db.setCurrentBitmap(bitmaps.get(currentPage));
-
-            tb.setChecked(false);
-        }
-
+        saveCurrentPage();
+        currentPage=bitmaps.size();
+        db.clearBitmap();
+        
     }
 
-    public void previousPage(View view)
+    public void saveCurrentPage()
     {
-        if(currentPage!=bitmaps.size())
+        try
         {
-            bitmaps.set(currentPage, db.loadBitmapFromView().copy(Bitmap.Config.ARGB_8888, true));
+            bitmaps.set(currentPage, db.loadBitmapFromView());
         }
-        else
+        catch(IndexOutOfBoundsException e)
         {
-            bitmaps.add(db.loadBitmapFromView().copy(Bitmap.Config.ARGB_8888, true));
+            bitmaps.add(db.loadBitmapFromView());
         }
-        currentPage--;
-        Log.d("currentPage", currentPage+"");
-        ToggleButton tb=(ToggleButton)findViewById(R.id.next_page);
-        tb.setChecked(false);
-        if(currentPage==0)
-        {
-            view.setEnabled(false);
-        }
-        //db.clearBitmap();
-        db.setCurrentBitmap(bitmaps.get(currentPage).copy(Bitmap.Config.ARGB_8888, true));
+    }
+
+    public void listPages(View view)
+    {
+        saveCurrentPage();
+        pageSelectorDialog=new PageSelectorDialog(bitmaps, this);
+        pageSelectorDialog.show(getFragmentManager(), "");
     }
 
     public void setColorDialog(View view)
     {
-        dialog=new ColorPickerDialog();
-        dialog.show(getFragmentManager(), "");
-
+        colorPickerDialog =new ColorPickerDialog();
+        colorPickerDialog.show(getFragmentManager(), "");
     }
 
     @Override
